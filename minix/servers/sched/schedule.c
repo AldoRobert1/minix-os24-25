@@ -161,6 +161,7 @@ int do_start_scheduling(message *m_ptr)
 	rmp->endpoint     = m_ptr->m_lsys_sched_scheduling_start.endpoint;
 	rmp->parent       = m_ptr->m_lsys_sched_scheduling_start.parent;
 	rmp->max_priority = m_ptr->m_lsys_sched_scheduling_start.maxprio;
+	/*rmp->tickets = ??*/
 	if (rmp->max_priority >= NR_SCHED_QUEUES) {
 		return EINVAL;
 	}
@@ -173,6 +174,7 @@ int do_start_scheduling(message *m_ptr)
 		   process scheduled, and the parent of itself. */
 		rmp->priority   = USER_Q;
 		rmp->time_slice = DEFAULT_USER_TIME_SLICE;
+		/*rmp->tickets = ??*/
 
 		/*
 		 * Since kernel never changes the cpu of a process, all are
@@ -194,6 +196,7 @@ int do_start_scheduling(message *m_ptr)
 		 * from the parent */
 		rmp->priority   = rmp->max_priority;
 		rmp->time_slice = m_ptr->m_lsys_sched_scheduling_start.quantum;
+		/*rmp->tickets = ??*/
 		break;
 		
 	case SCHEDULING_INHERIT:
@@ -206,6 +209,7 @@ int do_start_scheduling(message *m_ptr)
 
 		rmp->priority = schedproc[parent_nr_n].priority;
 		rmp->time_slice = schedproc[parent_nr_n].time_slice;
+		/*rmp->tickets = ??*/
 		break;
 		
 	default: 
@@ -223,7 +227,7 @@ int do_start_scheduling(message *m_ptr)
 	rmp->flags = IN_USE;
 
 	/* Schedule the process, giving it some quantum */
-	pick_cpu(rmp);
+	pick_cpu(rmp); //Qua??
 	while ((rv = schedule_process(rmp, SCHEDULE_CHANGE_ALL)) == EBADCPU) {
 		/* don't try this CPU ever again */
 		cpu_proc[rmp->cpu] = CPU_DEAD;
@@ -297,7 +301,7 @@ int do_nice(message *m_ptr)
 static int schedule_process(struct schedproc * rmp, unsigned flags)
 {
 	int err;
-	int new_prio, new_quantum, new_cpu, niced;
+	int new_prio, new_quantum, new_cpu, niced; //Tickets?
 
 	pick_cpu(rmp);
 
