@@ -173,7 +173,7 @@ int do_start_scheduling(message *m_ptr)
 		   process scheduled, and the parent of itself. */
 		rmp->priority   = USER_Q;
 		rmp->time_slice = DEFAULT_USER_TIME_SLICE;
-		/*rmp->tickets = ??*/
+		rmp->tickets = 1;
 
 		/*
 		 * Since kernel never changes the cpu of a process, all are
@@ -195,7 +195,7 @@ int do_start_scheduling(message *m_ptr)
 		 * from the parent */
 		rmp->priority   = rmp->max_priority;
 		rmp->time_slice = m_ptr->m_lsys_sched_scheduling_start.quantum;
-		/*rmp->tickets = ??*/
+		rmp->tickets = 1;
 		break;
 		
 	case SCHEDULING_INHERIT:
@@ -208,7 +208,7 @@ int do_start_scheduling(message *m_ptr)
 
 		rmp->priority = schedproc[parent_nr_n].priority;
 		rmp->time_slice = schedproc[parent_nr_n].time_slice;
-		/*rmp->tickets = ??*/
+		rmp->tickets = 1;
 		break;
 		
 	default: 
