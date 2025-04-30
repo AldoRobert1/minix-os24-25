@@ -161,7 +161,6 @@ int do_start_scheduling(message *m_ptr)
 	rmp->endpoint     = m_ptr->m_lsys_sched_scheduling_start.endpoint;
 	rmp->parent       = m_ptr->m_lsys_sched_scheduling_start.parent;
 	rmp->max_priority = m_ptr->m_lsys_sched_scheduling_start.maxprio;
-	/*rmp->tickets = ??*/
 	if (rmp->max_priority >= NR_SCHED_QUEUES) {
 		return EINVAL;
 	}
@@ -227,7 +226,7 @@ int do_start_scheduling(message *m_ptr)
 	rmp->flags = IN_USE;
 
 	/* Schedule the process, giving it some quantum */
-	pick_cpu(rmp); //Qua??
+	pick_cpu(rmp); 
 	while ((rv = schedule_process(rmp, SCHEDULE_CHANGE_ALL)) == EBADCPU) {
 		/* don't try this CPU ever again */
 		cpu_proc[rmp->cpu] = CPU_DEAD;
