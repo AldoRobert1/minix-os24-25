@@ -1432,6 +1432,7 @@ typedef struct {
 	endpoint_t parent;
 	int maxprio;
 	int quantum;
+	//int tickets;
 
 	uint8_t padding[40];
 } mess_lsys_sched_scheduling_start;
